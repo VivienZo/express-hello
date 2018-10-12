@@ -1,0 +1,23 @@
+{
+  "name": "express-hello",
+  "version": "1.0.0",
+  "description": "express hello",
+  "main": "index.js",
+  "scripts": {
+	"start": "node index.js",
+    "test": "echo 'Plein de tests'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VivienZo/express-hello.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VivienZo/express-hello/issues"
+  },
+  "homepage": "https://github.com/VivienZo/express-hello#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
