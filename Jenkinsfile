@@ -47,9 +47,9 @@ pipeline {
       steps {
         sh 'cd api; npm run clean'
         echo '===== Upload API to S3 ====='
-        sh 'aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
+        sh '/home/jenkins/.local/bin/aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
         echo '===== Start blue green deployment ====='
-        sh 'aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA --query AutoScalingGroups[].Instances[].InstanceId --output text'
+        sh '/home/jenkins/.local/bin/aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA --query AutoScalingGroups[].Instances[].InstanceId --output text'
       }
     }
 
