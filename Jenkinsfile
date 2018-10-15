@@ -2,7 +2,10 @@ pipeline {
   agent any
   tools {nodejs "nodejs"}
   environment {
-    NameOfAutoScalingGroup = "TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA"
+    InstanceID = """${sh(
+        returnStdout: true,
+        script: 'sh "/home/jenkins/.local/bin/aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA --query AutoScalingGroups[].Instances[].InstanceId --output text"'
+      )}"""
   }
 
   stages {
@@ -60,7 +63,7 @@ pipeline {
         sh '/home/jenkins/.local/bin/aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
         sh '/home/jenkins/.local/bin/aws s3 sync ./frontend/dist/ s3://tms-dev-london-front-end --delete'
         echo '===== Restart EC2 instances ====='
-        sh '/home/jenkins/.local/bin/aws ec2 reboot-instances --instance-ids i-003417b8cf493cf9e i-010d219833e6a9265'
+        sh "/home/jenkins/.local/bin/aws ec2 terminate-instances --instance-ids ${InstanceID}"
       }
     }
 
