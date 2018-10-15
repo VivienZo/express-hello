@@ -42,18 +42,25 @@ pipeline {
         echo '===== Test backend ====='
         sh 'cd api; npm test'
         echo '===== Test frontend ====='
+        sh 'cd frontend; npm run lint'
         sh 'cd frontend; npm test'
       }
     }
     
-    stage('Build backend') {
+    stage('Build') {
+      steps {
+        sh 'cd frontend; npm run build'
+      }
+    }
+    
+    stage('Deploy') {
       steps {
         sh 'cd api; npm run clean'
         echo '===== Upload API to S3 ====='
         sh '/home/jenkins/.local/bin/aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
-        echo '===== Start blue green deployment ====='
-        echo "AutoScalingGroup : ${NameOfAutoScalingGroup}"
-        
+        sh '/home/jenkins/.local/bin/aws s3 sync ./frontend/dist/ s3://tms-dev-london-front-end --delete'
+        echo '===== Restart EC2 instances ====='
+        sh '/home/jenkins/.local/bin/aws ec2 reboot-instances --instance-ids i-003417b8cf493cf9e i-010d219833e6a9265'
       }
     }
 
