@@ -15,6 +15,15 @@ pipeline {
         echo 'Mock SonarQube analysis'
       }
     }
+    
+    stage('Dependencies security audit') {
+      steps {
+        echo 'Analyze backend dependencies'
+        sh 'cd api; npm audit'
+        echo 'Analyze frontend dependencies'
+        sh 'cd frontend; npm audit'
+      }
+    }
 
     stage('Install dependencies') {
       steps {
