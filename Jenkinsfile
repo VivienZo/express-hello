@@ -27,8 +27,10 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'cd api'
-        sh 'npm test'
+        echo 'Test backend'
+        sh 'cd api; npm test'
+        echo 'Test frontend'
+        sh 'cd frontend; npm test'
       }
     }
 
