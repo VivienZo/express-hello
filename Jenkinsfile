@@ -18,28 +18,38 @@ pipeline {
     
     stage('Dependencies security audit') {
       steps {
-        echo 'Analyze backend dependencies'
+        echo '===== Analyze backend dependencies ====='
         sh 'cd api; npm audit'
-        echo 'Analyze frontend dependencies'
+        echo '===== Analyze frontend dependencies ====='
         sh 'cd frontend; npm audit'
       }
     }
 
     stage('Install dependencies') {
       steps {
-        echo 'Install backend dependencies'
+        echo '===== Install backend dependencies ====='
         sh 'cd api; npm install'
-        echo 'Install frontend dependencies'
+        echo '===== Install frontend dependencies ====='
         sh 'cd frontend; npm install'
       }
     }
 
     stage('Test') {
       steps {
-        echo 'Test backend'
+        echo '===== Test backend ====='
         sh 'cd api; npm test'
-        echo 'Test frontend'
+        echo '===== Test frontend ====='
         sh 'cd frontend; npm test'
+      }
+    }
+    
+    stage('Build backend') {
+      steps {
+        sh 'cd api; npm clean'
+        echo '===== Upload API to S3 ====='
+        sh 'aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
+        echo '===== Start blue green deployment ====='
+        sh 'aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA --query AutoScalingGroups[].Instances[].InstanceId --output text"
       }
     }
 
