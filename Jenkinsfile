@@ -45,7 +45,7 @@ pipeline {
     
     stage('Build backend') {
       steps {
-        sh 'cd api; npm clean'
+        sh 'cd api; npm run clean'
         echo '===== Upload API to S3 ====='
         sh 'aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
         echo '===== Start blue green deployment ====='
