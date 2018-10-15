@@ -18,10 +18,10 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
-        sh 'cd api'
-        sh 'npm install'
-        sh 'cd ../frontend'
-        sh 'npm install'
+        echo 'Install backend dependencies'
+        sh 'cd api; npm install'
+        echo 'Install frontend dependencies'
+        sh 'cd frontend; npm install'
       }
     }
 
