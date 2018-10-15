@@ -52,7 +52,7 @@ pipeline {
         echo '===== Upload API to S3 ====='
         sh '/home/jenkins/.local/bin/aws s3 sync ./api/ s3://tms-dev-london-back-end --delete'
         echo '===== Start blue green deployment ====='
-        echo "AutoScalingGroup : $(NameOfAutoScalingGroup)"
+        echo "AutoScalingGroup : ${NameOfAutoScalingGroup}"
         
       }
     }
