@@ -4,7 +4,7 @@ pipeline {
   environment {
     InstanceID = """${sh(
         returnStdout: true,
-        script: 'sh "/home/jenkins/.local/bin/aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA --query AutoScalingGroups[].Instances[].InstanceId --output text"'
+        script: 'echo "/home/jenkins/.local/bin/aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names TMS-dev-london-BEAutoscalingGroup-1XOZAQS5KHFXA --query AutoScalingGroups[].Instances[].InstanceId --output text"'
       )}"""
   }
 
